@@ -1,38 +1,78 @@
-# Data Visualization Report: Airbnb Case Study
+# Airbnb Data Visualization and Descriptive Statistics Report
 
-**Author:** Arda Tutmaz (212134)  
-**Date:** April 2026  
-**Subject:** Descriptive Statistics
+**Author:** Arda Tutmaz  
+**Student ID:** 212134  
 
-## 1. Executive Summary
-This report analyzes the Airbnb dataset to understand the underlying statistical structure of home-sharing listings. Through descriptive statistics and visualization, we examine how price correlates with room types and geographic locations.
+---
 
-## 2. Methodology
-The data was processed using Google Colab. Descriptive measures such as mean, median, and standard deviation were calculated, followed by the generation of plots to identify patterns and anomalies.
+## 1. Project Introduction
+This single Markdown file contains the data visualization case study for the Airbnb dataset. The objective is to practice data visualization using the `matplotlib` and `seaborn` libraries in Python to understand pricing, room types, and geographical distribution.
 
-## 3. Data Visualizations & Analysis
+## 2. Loading the Dataset
+To begin the analysis, we load the dataset directly from the raw GitHub link and inspect the first few rows.
 
-### A. Distribution of Prices
-The histogram below shows that the majority of listings are concentrated in the lower price range, with a long tail indicating luxury outliers.
-> ![Price Distribution](price_dist.png)  
-> *Figure 1: Histogram showing the skewness of Airbnb prices.*
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-### B. Room Type Frequency
-This count plot illustrates the dominance of "Entire home/apt" and "Private room" within the market, reflecting the most common supply types.
-> ![Room Type Count](room_type_count.png)  
-> *Figure 2: Distribution of accommodation types.*
+# Load the dataset
+url = '[https://raw.githubusercontent.com/kflisikowsky/Descriptive_Statistics/refs/heads/main/data/airbnb.csv](https://raw.githubusercontent.com/kflisikowsky/Descriptive_Statistics/refs/heads/main/data/airbnb.csv)'
+airbnb = pd.read_csv(url, index_col='Unnamed: 0')
 
-### C. Geographical Price Heatmap
-By plotting latitude and longitude against price, we can observe that specific high-traffic areas command significantly higher premiums.
-> ![Geo Map](geo_analysis.png)  
-> *Figure 3: Scatter plot representing the spatial distribution of prices.*
+# Display the first 5 rows
+print(airbnb.head())
+```
 
-### D. Correlation Heatmap
-The heatmap identifies which numerical variables (e.g., number of reviews, availability) have the strongest relationships with listing prices.
-> ![Correlation Heatmap](heatmap.png)  
-> *Figure 4: Correlation matrix of dataset variables.*
+## 3. Descriptive Statistics
+Before visualizing, we check the summary statistics of the dataset to understand the central tendencies and distributions of numerical features like price.
 
-## 4. Statistical Conclusion
-1. **Right-Skewed Data:** The pricing data is heavily right-skewed, meaning average prices are influenced by high-end listings.
-2. **Location Premium:** Geographical coordinates are a primary driver for pricing, as seen in the cluster analysis.
-3. **Supply Trends:** Private rooms and entire apartments make up over 90% of the total listings in this dataset.
+```python
+# Summary statistics
+print(airbnb.describe())
+```
+**Interpretation:** The descriptive statistics give us the mean, median, and max values, which indicate the presence of high-price outliers in our dataset.
+
+## 4. Data Visualizations
+
+### A. Price Distribution
+We use a histogram to visualize how the prices of Airbnb listings are distributed.
+
+```python
+plt.figure(figsize=(10, 6))
+sns.histplot(airbnb['price'], bins=50, kde=True, color='skyblue')
+plt.title('Distribution of Airbnb Prices')
+plt.xlabel('Price')
+plt.ylabel('Frequency')
+plt.show()
+```
+**Insight:** The distribution is highly right-skewed, meaning the vast majority of listings are clustered at lower price points, with a few luxury properties pulling the average up.
+
+### B. Room Type Popularity
+A count plot helps us understand the market supply by showing the frequency of each room type.
+
+```python
+plt.figure(figsize=(8, 5))
+sns.countplot(data=airbnb, x='room_type', palette='viridis')
+plt.title('Listing Counts by Room Type')
+plt.xlabel('Room Type')
+plt.ylabel('Count')
+plt.show()
+```
+**Insight:** This visualization reveals whether "Entire homes/apt" or "Private rooms" are more common in this specific Airbnb market.
+
+### C. Geographical Price Distribution
+By plotting the latitude and longitude, we can map the listings. Adding price as the hue shows us the most expensive neighborhoods.
+
+```python
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=airbnb, x='longitude', y='latitude', hue='price', palette='coolwarm', alpha=0.6)
+plt.title('Geographical Distribution of Listings by Price')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+```
+**Insight:** Prices are not evenly distributed; certain geographic clusters command much higher prices, likely indicating city centers or popular tourist areas.
+
+## 5. Conclusion
+Through these exercises, we applied descriptive statistics and data visualization techniques to the Airbnb dataset. The visualizations effectively highlight the right-skewed nature of pricing, the dominance of specific room types, and the strong influence of geographical location on property prices.
