@@ -22,6 +22,3 @@ The analysis is based on the Airbnb dataset available at:
 For a detailed breakdown of the visualizations and statistical interpretations, please refer to the report:
 * [Data Visualization Report (Report.md)](Report.md)
 
-## Tech Stack
-* **Language:** Python 3.x
-* **Libraries:** Pandas, NumPy, Matplotlib, Seaborn
